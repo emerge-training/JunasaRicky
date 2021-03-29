@@ -51,7 +51,7 @@ PUT "/task/:id"
     task.setDescription(requestData.getDescription())
     assert getDatabase().updateTask(vars.getString("id"), task):
         sendError "failedToUpdateTask"
-        sendOk
+    sendOk
 }
 
 DELETE "/task/:id"

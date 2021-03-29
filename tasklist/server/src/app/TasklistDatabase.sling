@@ -15,18 +15,20 @@ model Task
     timeStampAdded as long
     timeStampLastUpdated as long
 }
+
 const TASK = "task"
 pvar db as MySQLDatabase
 
 func forContext(ctx as LoggingContext) static as this
 {
     var cstr = EnvironmentVariable.get("TASK_DATABASE")
-    Log.debug(ctx, "Opening database connection: '" .. cstr .."'")
+    Log.debug(ctx, "Opening database connection: '" .. cstr .. "'")
     db = MySQLDatabase.forConnectionStringSync(ctx, cstr)
     if not db:
         Error.throw("failedToConnectToDatabase", cstr)
     var v = new this()
     v.setDb(db)
+    return v
 }
 
 func updateTable(table as SQLTableInfo)
@@ -98,5 +100,5 @@ func close
 {
     if db:
         db.closeSync()
-        db = null
+    db = null
 }
